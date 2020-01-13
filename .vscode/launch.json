@@ -8,9 +8,9 @@
       "cwd": "${workspaceFolder}/run",
       "console": "internalConsole",
       "stopOnEntry": false,
-      "mainClass": "net.fabricmc.loader.launch.knot.KnotClient",
-      "vmArgs": "-Dfabric.development\u003dtrue",
-      "args": " --assetIndex \"19w08b-1.14\" --assetsDir \"C:\\Users\\Joshua\\.gradle\\caches\\fabric-loom\\assets\""
+      "mainClass": "net.fabricmc.devlaunchinjector.Main",
+      "vmArgs": "-Dfabric.dli.config\u003dD:\\minecraft\\Harvest\\.gradle\\loom-cache\\launch.cfg -Dfabric.dli.env\u003dclient -Dfabric.dli.main\u003dnet.fabricmc.loader.launch.knot.KnotClient",
+      "args": ""
     },
     {
       "type": "java",
@@ -19,8 +19,8 @@
       "cwd": "${workspaceFolder}/run",
       "console": "internalConsole",
       "stopOnEntry": false,
-      "mainClass": "net.fabricmc.loader.launch.knot.KnotServer",
-      "vmArgs": "-Dfabric.development\u003dtrue",
+      "mainClass": "net.fabricmc.devlaunchinjector.Main",
+      "vmArgs": "-Dfabric.dli.config\u003dD:\\minecraft\\Harvest\\.gradle\\loom-cache\\launch.cfg -Dfabric.dli.env\u003dserver -Dfabric.dli.main\u003dnet.fabricmc.loader.launch.knot.KnotServer",
       "args": ""
     }
   ]

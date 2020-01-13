@@ -12,11 +12,11 @@ import net.minecraft.block.BlockState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sortme.ItemScatterer;
 import net.minecraft.tag.Tag;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.math.BlockPos;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -43,12 +43,13 @@ public class Harvest implements ModInitializer {
         }
 
         BlockPos pos = hit.getBlockPos();
-        List<ItemStack> drops = Block.getDroppedStacks(state, world, pos, tileEntity, player, player.getStackInHand(Hand.MAIN));
+        List<ItemStack> drops = Block.getDroppedStacks(state, world, pos, tileEntity, player,
+                player.getStackInHand(Hand.MAIN_HAND));
         boolean foundSeed = false;
         for (ItemStack drop : drops) {
             if (SEED_TAG.contains(drop.getItem())) {
                 foundSeed = true;
-                drop.subtractAmount(1);
+                drop.decrement(1);
                 break;
             }
         }
@@ -84,12 +85,13 @@ public class Harvest implements ModInitializer {
             if (!(world instanceof ServerWorld))
                 return ActionResult.PASS;
 
-            if (hand != Hand.MAIN)
+            if (hand != Hand.MAIN_HAND)
                 return ActionResult.PASS;
 
             BlockState state = world.getBlockState(hit.getBlockPos());
             IReplantHandler handler = DEFAULT_HANDLER; // TODO - Allow configuration
-            ActionResult result = handler.handlePlant((ServerWorld) world, hit, state, player, world.getBlockEntity(hit.getBlockPos()));
+            ActionResult result = handler.handlePlant((ServerWorld) world, hit, state, player,
+                    world.getBlockEntity(hit.getBlockPos()));
             if (result == ActionResult.SUCCESS) {
                 player.swingHand(hand);
                 player.addExhaustion(config.getExhaustionPerHarvest());

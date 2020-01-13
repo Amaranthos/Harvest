@@ -1,13 +1,9 @@
 {
+  "schemaVersion": "1",
   "id": "harvest",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "name": "Harvest",
   "description": "Configurable right click crop harvesting ",
-  "links": {
-    "homepage": "https://minecraft.curseforge.com/projects/simpleharvest",
-    "issues": "https://github.com/TehNut/Harvest/issues",
-    "sources": "https://github.com/TehNut/Harvest"
-  },
   "authors": [
     "TehNut"
   ],
@@ -15,11 +11,14 @@
     "InsomniaKitten"
   ],
   "requires": {
+    "fabricloader": ">=0.7.3",
     "fabric": "*"
   },
   "license": "MIT",
-  "side": "universal",
-  "initializers": [
-    "tehnut.harvest.Harvest"
-  ]
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "tehnut.harvest.Harvest"
+    ]
+  }
 }

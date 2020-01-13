@@ -42,16 +42,17 @@ public class Crop implements Predicate<BlockState> {
 
     public static class Adapter implements JsonSerializer<Crop>, JsonDeserializer<Crop> {
         @Override
-        public Crop deserialize(JsonElement element, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+        public Crop deserialize(JsonElement element, Type typeOfT, JsonDeserializationContext context)
+                throws JsonParseException {
             JsonObject json = element.getAsJsonObject();
             Block block = Registry.BLOCK.get(new Identifier(json.getAsJsonPrimitive("block").getAsString()));
             BlockState state = block.getDefaultState();
             JsonObject stateObject = json.getAsJsonObject("states");
             for (Map.Entry<String, JsonElement> e : stateObject.entrySet()) {
-                Property property = block.getStateFactory().getProperty(e.getKey());
+                Property property = block.getStateManager().getProperty(e.getKey());
                 if (property != null) {
                     String valueString = e.getValue().getAsString();
-                    Comparable value = (Comparable) property.getValue(valueString).get();
+                    Comparable value = (Comparable) property.parse(valueString).get();
                     state = state.with(property, value);
                 }
             }
@@ -64,7 +65,8 @@ public class Crop implements Predicate<BlockState> {
             object.addProperty("block", Registry.BLOCK.getId(src.getBlock()).toString());
 
             String stateString = src.mature.toString();
-            String[] properties = stateString.substring(stateString.indexOf("[") + 1, stateString.length() - 1).split(",");
+            String[] properties = stateString.substring(stateString.indexOf("[") + 1, stateString.length() - 1)
+                    .split(",");
 
             JsonObject states = new JsonObject();
             for (String property : properties) {
